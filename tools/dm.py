@@ -3,13 +3,16 @@
 # 绑定窗口
 # 点击
 # 找图
+# 隐藏窗口
+# 显示窗口
+from config import supportList
 import win32com.client
 # pip install pypiwin32
 import os
 import time
 from path import releasePath
 # from tools.path import releasePath
-# print(releasePath)
+print(releasePath)
     
 if not os.path.exists(releasePath):
     os.mkdir(releasePath)
@@ -19,111 +22,125 @@ if not os.path.exists(releasePath):
         
     # 注册
     # os.system('cd %s\\plug && regsvr32 dm.dll'%os.path.normcase(releasePath))
-print('copy %s\\static\\dm.dll %s\\plug\\dm.dll'%(os.path.dirname(os.path.dirname(__file__)),os.path.normcase(releasePath)))
-print('cd %s\\plug\\ && regsvr32 dm.dll'%os.path.normcase(releasePath))
+# print('copy %s\\static\\dm.dll %s\\plug\\dm.dll'%(os.path.dirname(os.path.dirname(__file__)),os.path.normcase(releasePath)))
+# print('cd %s\\plug\\ && regsvr32 dm.dll'%os.path.normcase(releasePath))
 
 # 注册
 # os.system('cd %s\\plug && regsvr32 dm.dll'%os.path.normcase(releasePath))
 
-print(os.path.dirname(os.path.dirname(__file__)) + '\\static')
+# print(os.path.dirname(os.path.dirname(__file__)) + '\\static')
 # os.system('cd C:/vscode/yysScript/static && regsvr32 dm.dll')
 class Dm():
-    def __init__(self, clientId):
-        self.dm = win32com.client.Dispatch('dm.dmsoft')
+    def __init__(self, clientId=0):
+        self.dmPlug = win32com.client.Dispatch('dm.dmsoft')
         self.clientId = clientId
         
         if not os.path.exists(releasePath + '\\screenshot'):
             os.mkdir(releasePath + '\\screenshot')
-        self.dm.SetPath(releasePath + '\\screenshot')
-        print(self.dm.Ver())
-    def findWindow(self):
-        # 查找所有的模拟器窗口
-        hwnds = []
-        print(self.dm.EnumWindow(0,"","LDPlayerMainFrame",1+2+4+8+16))
-        if self.dm.EnumWindow(0,"","LDPlayerMainFrame",1+2+4+8+16) =='':
-            print('kong')
-            return 0
-        for hwnd in list(map(int, self.dm.EnumWindow(0,"","LDPlayerMainFrame",1+2+4+8+16).split(","))):
-            hwnd2 = self.dm.FindWindowEx(hwnd, "RenderWindow","TheRender")
-            hwnd3 = self.dm.FindWindowEx(hwnd2, "subWin","sub")
-            self.dm.SetWindowState(hwnd,5)
-            rect = self.dm.GetWindowRect(hwnd)
-            print('hwnd=%s'%hwnd)
-            if hwnd3:
-                print('hwnd3=%s'%hwnd3)
-                if(rect[0]):
-                    # 查找成功
-                    x1 = rect[1]
-                    y1 = rect[2]
-                    x2 = rect[3]
-                    y2 = rect[4]
-                    print('x1=%s,y1=%s,x2=%s,y2=%s'%(x1,y1,x2,y2))
-                hwnds.append({'parentHwnd':hwnd,'SimulatorType':'雷电模拟器','childHwnd':hwnd2,'rect':{'x1':x1,'y1':y1,'x2':x2,'y2':y2}})
-        
-        # 排序
-        def sortKey(item):
-            return item['rect']['x1']
-        hwnds.sort(key=sortKey)
-        print(hwnds)
+        self.dmPlug.SetPath(releasePath + '\\screenshot')
+        # print(self.dmPlug.Ver())
 
-        # 设置当前ID
-        self.hwndInfo = hwnds[self.clientId-1]
-        self.parentHwnd = self.hwndInfo['parentHwnd']
-        self.childHwnd = self.hwndInfo['childHwnd']
-    
+    def  findWindows(self):
+        windowInfos = []
+        for supportInfo in supportList:
+            fatherHwndEx = self.dmPlug.EnumWindow(0,0,supportInfo[0],31)
+            print(supportInfo)
+            print( fatherHwndEx)
+            # print("dddd:%s"%fatherHwndEx)
+            fatherHwndList = fatherHwndEx.split(",")
+            if fatherHwndEx == "":
+                # 没找到，跳过
+                continue
+            for fatherHwnd in fatherHwndList:
+                # print('fatherHwnd:%s'%fatherHwnd)
+            #     fatherHwnd2 = int(fatherHwnd)
+                childHwndEx = self.dmPlug.EnumWindow(fatherHwnd, supportInfo[2], supportInfo[1],31)
+                # print(childHwndEx)
+                if childHwndEx == "":
+                    # 没找到，跳过
+                    continue
+                childHwnd = childHwndEx.split(",")[0]
+                # print( childHwnd)
+                self.fatherHwnd = fatherHwnd
+                self.childHwnd = childHwnd
+                coord = self.dmPlug.GetClientRect(fatherHwnd)
+                # print(coord)
+                self.setWindowState()
+                self.getWindowState()
+                
+                coord = self.dmPlug.GetClientRect(fatherHwnd)
+                # print(coord)
+                if(coord[0]!=1):
+                    # print('coord[0]!=1 !!')
+                    while(1):
+                        pass
+                # 如果坐标为负数，则移动起来！
+                # screenW = self.dmPlug.GetScreenWidth()
+                # screenH = self.dmPlug.GetScreenHeight()
+                flag = True
+                i = 0
+                for i in range(len(windowInfos)):
+                    windowInfo = windowInfos[i]
+                    if windowInfo['coord'][1] > coord[1]:
+                        # 插入
+                        windowInfos.insert(i, {
+                            'fatherHwnd':fatherHwnd,
+                            'childHwnd':childHwnd,
+                            'coord':coord,
+                            'title':self.dmPlug.GetWindowTitle(fatherHwnd)
+                        })
+                        flag = False
+                        break
+                if flag:
+                    # 插入
+                    # todo:改成goto
+                    windowInfos.insert(len(windowInfos), {
+                        'fatherHwnd':fatherHwnd,
+                        'childHwnd':childHwnd,
+                        'coord':coord,
+                        'title':self.dmPlug.GetWindowTitle(fatherHwnd)
+                    })
+                # print('windowInfos')
+                # print(windowInfos)
+            if len(windowInfos) == 0:
+                print("没找到窗口！")
+            return windowInfos
+                
     def getWindowState(self):
-        # 0 : 判断窗口是否存在
-        # 1 : 判断窗口是否处于激活
-        # 2 : 判断窗口是否可见
-        # 3 : 判断窗口是否最小化
-        # 4 : 判断窗口是否最大化
-        # 5 : 判断窗口是否置顶
-        dm_ret0 = self.dm.GetWindowState(self.parentHwnd,0) 
-        dm_ret1 = self.dm.GetWindowState(self.parentHwnd,1) 
-        dm_ret2 = self.dm.GetWindowState(self.parentHwnd,2) 
-        dm_ret3 = self.dm.GetWindowState(self.parentHwnd,3) 
-        dm_ret4 = self.dm.GetWindowState(self.parentHwnd,4) 
-        dm_ret5 = self.dm.GetWindowState(self.parentHwnd,5) 
-        print("存在:%s 激活:%s 可见:%s 最小化:%s 最大化:%s 置顶:%s"% (dm_ret0,dm_ret1,dm_ret2,dm_ret3,dm_ret4,dm_ret5))
+        res = []
+        for i in range(6):
+            res.append(self.dmPlug.GetWindowState(self.fatherHwnd,i) )
+        # print("存在:%s 激活:%s 可见:%s 最小化:%s 最大化:%s 置顶:%s"% (res[0],res[1],res[2],res[3],res[4],res[5]))
+        return res
     
     def setWindowState(self):
-        ScreenW = self.dm.GetScreenWidth()
-        dd = self.dm.GetWindowRect(self.parentHwnd)
-        print(dd)
-        self.dm.SetWindowState(self.parentHwnd,5)#恢复指定窗口 ,但不激活
-        # self.dm.SetWindowState(self.parentHwnd,1)#激活
-        # self.dm.MoveWindow(self.parentHwnd,ScreenW - 10 + self.clientId,self.hwndInfo['rect']['y1'] - self.hwndInfo['rect']['y2'] + 5)
-        # self.dm.MoveWindow(self.parentHwnd, self.clientId-1, 0)
-        # self.dm.MoveWindow(self.childHwnd,0,0)
-        # self.dm.SetWindowState(self.parentHwnd,11)# 解除禁止窗口
-    def bandWindow(self):
+        # ScreenW = self.dmPlug.GetScreenWidth()
+        dd = self.dmPlug.GetWindowRect(self.fatherHwnd)
+        # print(dd)
+        self.dmPlug.SetWindowState(self.fatherHwnd,5)#恢复指定窗口 ,但不激活
+        self.dmPlug.SetWindowState(self.fatherHwnd,1)#激活
+        # self.dmPlug.MoveWindow(self.fatherHwnd,ScreenW - 10 + self.clientId,self.hwndInfo['rect']['y1'] - self.hwndInfo['rect']['y2'] + 5)
+        # self.dmPlug.MoveWindow(self.fatherHwnd, self.clientId-1, 0)
+        # self.dmPlug.MoveWindow(self.childHwnd,0,0)
+        # self.dmPlug.SetWindowState(self.fatherHwnd,11)# 解除禁止窗口
+    def bandWindow(self, display, mouse, keypad, mode):
+        self.dmPlug.BindWindow(self.childHwnd, display, mouse, keypad, mode)
+    def tryBandWindow(self):
         display = ["gdi","gdi2","dx2","dx3"]
         for dis in display:
-            print(dis)
-            self.dm.BindWindow(self.childHwnd,dis,"windows","windows",0)
+            # print(dis)
+            self.dmPlug.BindWindow(self.childHwnd,dis,"windows","windows",0)
             time.sleep(1)
-            self.dm.Capture(0,0,800,600,"screen-"+dis+".bmp")
-            if(self.dm.GetAveRGB(0,0,800,600)!="000000"):
+            self.dmPlug.Capture(0,0,800,600,"screen-"+dis+".bmp")
+            if(self.dmPlug.GetAveRGB(0,0,800,600)!="000000"):
                 # 不是纯黑，退出
-                print("不是纯黑，退出")
+                # print("不是纯黑，退出")
                 break
-            self.dm.UnBindWindow() 
+            self.dmPlug.UnBindWindow() 
         
     def unBindWindow(self):
-        self.dm.UnBindWindow() 
-print('sss')
-dm = Dm(1)
-dm.findWindow()
-dm.setWindowState()
-# dm = Dm(2)
-# dm.findWindow()
-# dm.setWindowState()
-dm.bandWindow()
-dm.unBindWindow()
-dm.getWindowState() 
-# 获取坐标
-# print(dm.dm.GetCursorPos())
+        self.dmPlug.UnBindWindow() 
 
-# todo
-# 思路
-# 建立一个dm对象，专门用来检查窗口
+
+# dm = Dm(1)
+# dm.findWindows()
