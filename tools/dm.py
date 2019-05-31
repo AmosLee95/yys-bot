@@ -1,10 +1,14 @@
+# 提供dm的基本功能：
+# 查找窗口
+# 绑定窗口
+# 点击
+# 找图
 import win32com.client
-
 # pip install pypiwin32
-
 import os
 import time
-from tools.path import releasePath
+from path import releasePath
+# from tools.path import releasePath
 # print(releasePath)
     
 if not os.path.exists(releasePath):
@@ -87,7 +91,7 @@ class Dm():
         dd = self.dm.GetWindowRect(self.parentHwnd)
         print(dd)
         self.dm.SetWindowState(self.parentHwnd,5)#恢复指定窗口 ,但不激活
-        self.dm.SetWindowState(self.parentHwnd,1)#激活
+        # self.dm.SetWindowState(self.parentHwnd,1)#激活
         # self.dm.MoveWindow(self.parentHwnd,ScreenW - 10 + self.clientId,self.hwndInfo['rect']['y1'] - self.hwndInfo['rect']['y2'] + 5)
         # self.dm.MoveWindow(self.parentHwnd, self.clientId-1, 0)
         # self.dm.MoveWindow(self.childHwnd,0,0)
@@ -115,7 +119,8 @@ dm.setWindowState()
 # dm.findWindow()
 # dm.setWindowState()
 dm.bandWindow()
-dm.unBindWindow() 
+dm.unBindWindow()
+dm.getWindowState() 
 # 获取坐标
 # print(dm.dm.GetCursorPos())
 
