@@ -10,7 +10,14 @@ import win32com.client
 # pip install pypiwin32
 import os
 import time
+import math
+import random
 from path import releasePath
+print("random() : ", random.random())
+print("random() : ", random.random())
+print("random() : ", random.random())
+print("random() : ", random.random())
+print("random() : ", random.random())
 # from tools.path import releasePath
 print(releasePath)
     
@@ -30,6 +37,13 @@ if not os.path.exists(releasePath):
 
 # print(os.path.dirname(os.path.dirname(__file__)) + '\\static')
 # os.system('cd C:/vscode/yysScript/static && regsvr32 dm.dll')
+def delay(time0):
+    print("delay:%d==>%f"%(time0,time0/1000))
+    time.sleep(time0/1000)
+
+
+delay(123)
+
 class Dm():
     def __init__(self, clientId=0):
         self.dmPlug = win32com.client.Dispatch('dm.dmsoft')
@@ -141,6 +155,21 @@ class Dm():
     def unBindWindow(self):
         self.dmPlug.UnBindWindow() 
 
+    def click(self,x, y, rMax):
+        print( "          myClick: " & x & ", " & y)
+        if x>=0 and y >=0 and  x<=800 and y <=600:
+            pi = 3.1415926535897932
+            
+            r = random.random() * rMax
+            angle =  random.random() * 2 * pi
+            x2 = math.cos(angle) * r
+            y2 = math.sin(angle) * r
+            
+            self.dmPlug.MoveTo(x + x2, y + y2)
+            self.dmPlug.LeftDown()
+            delay(30 + random.random() * 20)
+            self.dmPlug.LeftUp()
+            delay(300 + random.random() * 20)
 
 # dm = Dm(1)
 # dm.findWindows()
