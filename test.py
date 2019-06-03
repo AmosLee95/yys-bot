@@ -50,4 +50,3 @@ win32gui.ShowWindow(hwnd,1)
 win32gui.SetActiveWindow(hwnd)
 
 
-print(1)
