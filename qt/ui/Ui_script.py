@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'g:\python\yys-bot\qt\script.ui'
+# Form implementation generated from reading ui file 'g:\python\yys-bot\qt\ui\script.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
@@ -8,11 +8,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Frame(object):
-    def setupUi(self, Frame):
-        Frame.setObjectName("Frame")
-        Frame.resize(400, 300)
-        self.gridLayoutWidget = QtWidgets.QWidget(Frame)
+class Ui_ScriptControler(object):
+    def setupUi(self, ScriptControler):
+        ScriptControler.setObjectName("ScriptControler")
+        ScriptControler.resize(400, 300)
+        self.gridLayoutWidget = QtWidgets.QWidget(ScriptControler)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 200, 111, 80))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
@@ -27,7 +27,7 @@ class Ui_Frame(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.gridLayout.addWidget(self.comboBox, 0, 0, 1, 1)
-        self.horizontalLayoutWidget = QtWidgets.QWidget(Frame)
+        self.horizontalLayoutWidget = QtWidgets.QWidget(ScriptControler)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(130, 200, 141, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
@@ -36,7 +36,7 @@ class Ui_Frame(object):
         self.listView = QtWidgets.QListView(self.horizontalLayoutWidget)
         self.listView.setObjectName("listView")
         self.horizontalLayout.addWidget(self.listView)
-        self.tabWidget = QtWidgets.QTabWidget(Frame)
+        self.tabWidget = QtWidgets.QTabWidget(ScriptControler)
         self.tabWidget.setGeometry(QtCore.QRect(10, 10, 381, 181))
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
@@ -65,7 +65,7 @@ class Ui_Frame(object):
         self.radioButton_3 = QtWidgets.QRadioButton(self.splitter_2)
         self.radioButton_3.setObjectName("radioButton_3")
         self.tabWidget.addTab(self.tab_2, "")
-        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(Frame)
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(ScriptControler)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(280, 200, 101, 80))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
@@ -75,23 +75,23 @@ class Ui_Frame(object):
         self.listView_2.setObjectName("listView_2")
         self.horizontalLayout_2.addWidget(self.listView_2)
 
-        self.retranslateUi(Frame)
+        self.retranslateUi(ScriptControler)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(Frame)
+        QtCore.QMetaObject.connectSlotsByName(ScriptControler)
 
-    def retranslateUi(self, Frame):
+    def retranslateUi(self, ScriptControler):
         _translate = QtCore.QCoreApplication.translate
-        Frame.setWindowTitle(_translate("Frame", "Frame"))
-        self.pushButton.setText(_translate("Frame", "RUN"))
-        self.comboBox.setItemText(0, _translate("Frame", "AAA"))
-        self.comboBox.setItemText(1, _translate("Frame", "BBB"))
-        self.comboBox.setItemText(2, _translate("Frame", "CCC"))
-        self.radioButton_4.setText(_translate("Frame", "AAA1"))
-        self.radioButton_5.setText(_translate("Frame", "AAA2"))
-        self.radioButton_6.setText(_translate("Frame", "AAA3"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Frame", "AAA"))
-        self.radioButton.setText(_translate("Frame", "BBB1"))
-        self.radioButton_2.setText(_translate("Frame", "BBB2"))
-        self.radioButton_3.setText(_translate("Frame", "BBB3"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Frame", "BBB"))
+        ScriptControler.setWindowTitle(_translate("ScriptControler", "Frame"))
+        self.pushButton.setText(_translate("ScriptControler", "RUN"))
+        self.comboBox.setItemText(0, _translate("ScriptControler", "AAA"))
+        self.comboBox.setItemText(1, _translate("ScriptControler", "BBB"))
+        self.comboBox.setItemText(2, _translate("ScriptControler", "CCC"))
+        self.radioButton_4.setText(_translate("ScriptControler", "AAA1"))
+        self.radioButton_5.setText(_translate("ScriptControler", "AAA2"))
+        self.radioButton_6.setText(_translate("ScriptControler", "AAA3"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("ScriptControler", "AAA"))
+        self.radioButton.setText(_translate("ScriptControler", "BBB1"))
+        self.radioButton_2.setText(_translate("ScriptControler", "BBB2"))
+        self.radioButton_3.setText(_translate("ScriptControler", "BBB3"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("ScriptControler", "BBB"))
 
