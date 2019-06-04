@@ -1,12 +1,12 @@
 from PyQt5 import QtWidgets 
-try:
-    from ui.Ui_main import Ui_MainWindow 
-    from ui.Ui_scriptTabs import Ui_tabFrame 
-    from ui.Ui_script import Ui_ScriptControler 
-except:
-    from qt.ui.Ui_main import Ui_MainWindow 
-    from qt.ui.Ui_scriptTabs import Ui_tabFrame 
-    from qt.ui.Ui_script import Ui_ScriptControler 
+# try:
+#     from ui.Ui_main import Ui_MainWindow 
+#     from ui.Ui_scriptTabs import Ui_tabFrame 
+#     from ui.Ui_script import Ui_ScriptControler 
+# except ModuleNotFoundError:
+from qt.ui.Ui_main import Ui_MainWindow 
+from qt.ui.Ui_scriptTabs import Ui_tabFrame 
+from qt.ui.Ui_script import Ui_ScriptControler 
   
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow): 
     def __init__(self, parent = None): 
@@ -53,4 +53,4 @@ def run():
     mainWindow=MainWindow() 
     mainWindow.show() 
     sys.exit(app.exec_())
-run()
+# run()
