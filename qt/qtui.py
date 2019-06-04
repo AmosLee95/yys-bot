@@ -16,7 +16,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
             self.addScriptTabs()
     def addScriptTabs(self):
         # 添加tab
-        self.scriptTabs=ScriptTabs(3)
+        self.scriptTabs=ScriptTabs(5)
         self.gridLayout.addWidget(self.scriptTabs)
         self.scriptTabs.show() 
   
@@ -53,3 +53,4 @@ def run():
     mainWindow=MainWindow() 
     mainWindow.show() 
     sys.exit(app.exec_())
+run()
