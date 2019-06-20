@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_NoWindow(object):
     def setupUi(self, NoWindow):
         NoWindow.setObjectName("NoWindow")
-        NoWindow.resize(693, 300)
+        NoWindow.resize(400, 300)
         self.widget = QtWidgets.QWidget(NoWindow)
-        self.widget.setGeometry(QtCore.QRect(150, 90, 351, 32))
+        self.widget.setGeometry(QtCore.QRect(10, 40, 351, 32))
         self.widget.setObjectName("widget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)

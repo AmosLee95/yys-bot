@@ -5,18 +5,14 @@
 # 找图
 # 隐藏窗口
 # 显示窗口
+from config import supportList
 import win32com.client
 # pip install pypiwin32
 import os
 import time
 import math
 import random
-try:
-    from config import supportList
-    from path import releasePath
-except:
-    from tools.config import supportList
-    from tools.path import releasePath
+from path import releasePath
 print("random() : ", random.random())
 print("random() : ", random.random())
 print("random() : ", random.random())
@@ -122,7 +118,7 @@ class Dm():
                 # print(windowInfos)
             if len(windowInfos) == 0:
                 print("没找到窗口！")
-        return windowInfos
+            return windowInfos
                 
     def getWindowState(self):
         res = []
@@ -153,10 +149,9 @@ class Dm():
             if(self.dmPlug.GetAveRGB(0,0,800,600)!="000000"):
                 # 不是纯黑，退出
                 # print("不是纯黑，退出")
-                return True
                 break
             self.dmPlug.UnBindWindow() 
-        return False
+        
     def unBindWindow(self):
         self.dmPlug.UnBindWindow() 
 
