@@ -11,12 +11,12 @@ import os
 import time
 import math
 import random
-try:
-    from config import supportList
-    from path import releasePath
-except:
-    from tools.config import supportList
-    from tools.path import releasePath
+# try:
+#     from config import supportList
+#     from path import releasePath
+# except:
+from tools.config import supportList
+from tools.path import releasePath
 print("random() : ", random.random())
 print("random() : ", random.random())
 print("random() : ", random.random())
