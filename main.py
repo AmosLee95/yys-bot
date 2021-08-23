@@ -7,7 +7,7 @@ from qt.Ui_script import Ui_ScriptControler
 from qt.Ui_noWindow import Ui_NoWindow
 
 from tools.dm import Dm
-
+import sys
 import time
 
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow): 
@@ -74,7 +74,6 @@ class ScriptControler(QtWidgets.QWidget,Ui_ScriptControler):
         # time.sleep(1)
         self.timer.stop()
 def run():
-    import sys 
     app=QtWidgets.QApplication(sys.argv) 
     mainWindow=MainWindow() 
     mainWindow.show() 

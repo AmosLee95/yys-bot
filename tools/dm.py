@@ -15,6 +15,12 @@ import random
 #     from config import supportList
 #     from path import releasePath
 # except:
+
+import sys
+if '64 bit'in sys.version:
+    print("please use python 32bit!!")
+    sys.exit()
+    
 from tools.config import supportList
 from tools.path import releasePath
 print("random() : ", random.random())
@@ -46,7 +52,7 @@ def delay(time0):
     time.sleep(time0/1000)
 
 
-delay(123)
+# delay(123)
 
 class Dm():
     def __init__(self, clientId=0):
@@ -176,5 +182,5 @@ class Dm():
             self.dmPlug.LeftUp()
             delay(300 + random.random() * 20)
 
-# dm = Dm(1)
-# dm.findWindows()
+dm = Dm(1)
+dm.findWindows()
